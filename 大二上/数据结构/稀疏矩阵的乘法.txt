@@ -1,0 +1,65 @@
+// consoleApplication4.cpp: 定义控制台应用程序的入口点。
+//
+
+//#include "stdafx.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define maxlen 1000
+int main()
+{
+	int nl1, nq1, num1, mat1[maxlen][3] = { 0 };
+	int nl2, nq2, num2, mat2[maxlen][3] = { 0 };
+	int locnum2[maxlen] = { 0 }, cpot2[maxlen] = { 0 };
+	int result[maxlen][3] = { 0 };
+	int count=0;
+	int ctemp[maxlen] = { 0 };
+	scanf("%d%d%d", &nl1, &nq1, &num1);
+	for (int i = 0; i < num1; i++)
+		scanf("%d%d%d", &mat1[i][0], &mat1[i][1], &mat1[i][2]);
+	scanf("%d%d%d", &nl2, &nq2, &num2);
+	for (int i = 0; i < num2; i++)
+	{
+		scanf("%d%d%d", &mat2[i][0], &mat2[i][1], &mat2[i][2]);
+		locnum2[mat2[i][0]]++;
+	}
+	cpot2[1] = 0;
+	for (int i = 2; i <= nl2; i++)
+		cpot2[i] = cpot2[i - 1] + locnum2[i - 1];//记录数组二每一行开始的位置
+	cpot2[nl2 + 1] = num2;
+	/*for (int i = 0; i < num1; i++)
+		printf("%d ", mat1[i][2]);
+	printf("\n");
+	for (int i = 0; i < num2; i++)
+		printf("%d ", mat2[i][2]);
+	printf("\n");
+	for (int i = 0; i <nl2; i++)
+		printf("%d ", cpot2[i]);
+	printf("\n");*/
+	for (int i = 0; i < num1; i++)
+	{
+		
+		for (int k = cpot2[mat1[i][1]]; k < cpot2[mat1[i][1] + 1]; k++)
+		{
+			ctemp[mat2[k][1]] += mat1[i][2] * mat2[k][2];
+		}
+		if (mat1[i][0] != mat1[i + 1][0] || i == num1 - 1)
+		{
+			for (int j = 1; j <= nq2; j++)
+			{ 
+				if (ctemp[j] != 0)
+				{
+					result[count][0] = mat1[i][0];
+					result[count][1] = j;
+					result[count][2] = ctemp[j];
+					count++;
+				}
+			}
+			memset(ctemp, 0, sizeof(ctemp));
+		}
+	}
+	printf("%d\n%d\n%d\n", nl1, nq2, count);
+	for (int i = 0; i < count; i++)
+		printf("%d,%d,%d\n", result[i][0],result[i][1], result[i][2] );
+	//system("pause");
+}

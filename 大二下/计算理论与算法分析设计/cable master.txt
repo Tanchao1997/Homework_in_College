@@ -1,0 +1,41 @@
+//#include "stdafx.h"
+#include <iostream>
+#include <math.h>
+using namespace std;
+#define length 10001
+double Elength[length] = { 0 };
+int cheak(int N, int K, double len)
+{
+	int sum = 0;
+	for (int i = 0; i < N; i++)
+	{
+		sum += (int)(Elength[i] / len);
+	}
+	if (sum >= K) return true;
+	return false;
+}
+int main()
+{
+	int N, K;
+	scanf("%d%d", &N, &K);
+	for (int i = 0; i < N; i++)
+		scanf("%lf", &Elength[i]);
+	int flag = 1000;
+	double maxlen = 0, minlen = 0, midlen;
+	for (int i = 0; i < N; i++)
+		if (maxlen < Elength[i])
+			maxlen = Elength[i];
+	//if (!cheak(N, K,  1)) return 0;
+	 while (flag--)
+	{	
+		midlen = (maxlen + minlen) / 2;
+		if (cheak(N, K, midlen))
+			minlen = midlen;
+		else maxlen = midlen;
+		//midlen = (maxlen + minlen) / 2;
+	}
+	 //if ((int)(midlen * 1000) % 10 >= 5)  
+		//midlen -= 0.005;
+	printf("%.2lf\n", floor(midlen*100)/100);
+	//system("pause");
+}

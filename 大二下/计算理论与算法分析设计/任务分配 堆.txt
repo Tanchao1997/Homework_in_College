@@ -1,0 +1,50 @@
+    #include <iostream>  
+    using namespace std;  
+      
+    int n,c[1000][1000],a[1000],best=30000,sum;  
+      
+    void find(int i)  
+    {  
+    int j,temp;  
+    if(i==n)  
+    {  
+       if(sum<best)  
+        best=sum;  
+    }  
+    else  
+    {  
+       for(j=i;j<n;j++)  
+       {  
+        temp=a[j];  
+        a[j]=a[i];  
+        a[i]=temp;  
+         
+        sum+=c[a[i]][i];  
+        if(sum<=best )  
+         find(i+1);  
+      
+        sum-=c[a[i]][i];  
+        temp=a[j];  
+        a[j]=a[i];  
+        a[i]=temp;  
+         
+       }  
+    }  
+      
+      
+    }  
+      
+    int main()  
+    {  
+    int i,j;  
+    cin>>n;  
+    for(i=0;i<n;i++)  
+       for(j=0;j<n;j++)  
+        cin>>c[i][j];//iÎª¹¤×÷  
+    for(i=0;i<n;i++)  
+       a[i]=i;  
+    find(0);  
+    cout<<best<<endl;  
+      
+    return 0;  
+    }  

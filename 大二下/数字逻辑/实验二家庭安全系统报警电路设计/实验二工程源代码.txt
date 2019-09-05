@@ -1,0 +1,44 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 2018/05/19 21:44:18
+// Design Name: 
+// Module Name: JiatingAnquanXitong
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+module JiatingAnquanXitong(
+input s1,
+input s2,
+input s3,
+input s4,
+input s5,
+input s6,
+input m,
+input a,
+input l,
+input p,
+output A,
+output L,
+output V,
+output C
+    );
+    wire control;
+    assign control = ~ ( ( s1 & s2 & s3 & s4 & s5 & s6 ) | m );
+    assign A = control & a;
+    assign L = control & l;
+    assign V = control;
+    assign C = control & p;
+endmodule

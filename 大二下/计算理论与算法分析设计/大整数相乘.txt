@@ -1,0 +1,67 @@
+// ConsoleApplication5.cpp: 定义控制台应用程序的入口点。
+//
+
+//#include "stdafx.h"
+#include<iostream>
+#include<cstdio>
+#include<string>
+using namespace std;
+const int Dbyte = 20010;
+void multiply(int*A, int*B, int numA, int numB, int*result)
+{
+	int carry = 0;
+	int loc;
+	for(int i=numA-1;i>=0;i--)
+		for (int j = numB - 1; j >= 0; j--)
+		{
+			loc = i + j+1;
+			result[loc] += A[i] * B[j]+carry;
+			//cout << "result[" << loc << "]:" << result[loc] << endl;
+			carry = result[loc] / 10;
+			//cout <<"carry:"<< carry << endl;
+			result[loc] %= 10;
+			//cout << "result[" << loc << "]:" << result[loc] << endl;
+			if (j == 0)	//Attention!!!!
+			{
+				result[--loc] += carry;
+				carry = 0;
+			}
+			//cout << "result[" << loc << "]:" << result[loc] << endl;
+			//cout << endl;
+		}
+	//result[0] = carry;
+}
+int main()
+{
+	string a;
+	string b;
+	cin >> a >> b;
+	//cout << a << endl<< b << endl;
+	int numA = a.length();
+	int numB = b.length();
+	//cout << numA << "  " << numB  << endl;
+	int result[2 * Dbyte] = {0};
+	int A[Dbyte] = { 0 };
+	int B[Dbyte] = { 0 };
+	for (int i = 0; i < numA; i++)
+	{
+		A[i] = a[i]-48;
+		//cout << A[i];
+		//cout << "loop1";
+	}
+	//cout << endl;
+	for (int i = 0; i < numB; i++)
+	{
+		B[i] = b[i]-48;
+		//cout << B[i];
+		//cout << "loop2";
+	}
+	//cout << endl;
+	multiply(A, B, numA, numB,result);
+	if (result[0] != 0) 
+		cout << result[0];
+		for (int i = 1; i < numA + numB; i++)
+			cout << result[i];
+	cout << endl;
+	//system("pause");
+}

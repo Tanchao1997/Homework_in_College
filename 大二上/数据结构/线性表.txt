@@ -1,0 +1,47 @@
+1.
+从头逐个向下遍历，如满足结果就返回所在序号；
+int LocateElem_Sq(SqList L,ElemType e,Status (*compare)(ElemType, ElemType)) 
+{
+	int i=0;
+	if(compare(L[i++],e)&&i<strlen(L)) return(i);
+	return(0);
+}
+2.
+无头结点链表插入时，每移动一次都需检验下一个元素是否为空，而有头结点链表只需要将头结点元素与e比较一次即可。
+但无头结点链表少一个结点节约少量空间。
+int insert(Link*head,int i,int e)
+{
+	if(i>2)
+	{
+		if(head->next==NULL) return(0);
+		else
+		{
+			head=head->next;
+		}
+		i--;
+	}
+	if(head->next==NULL) retrn(0);
+	else
+	{
+		Link*ans=malloc(sizeof(Link));
+		ans->data=e;
+		ans->next=head->next;
+		head->next=ans;
+		return(1);
+	}
+}
+3.
+void delete(LinkList&head,int min,int max)
+{
+	LinkList*ans=NULL;
+	while(head->next!=NULL)
+	{
+		if(head->next->data>min&&head->next->data<max)
+		{
+			ans=head->next;
+			head->next=head->next->next;
+			free(ans);
+		}
+	}
+}
+时间复杂度为o(n),n为结点个数。

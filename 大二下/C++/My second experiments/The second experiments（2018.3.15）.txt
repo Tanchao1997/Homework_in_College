@@ -1,0 +1,55 @@
+1. Here is the codes：
+
+#include <iostream>
+using namespace std;
+void main()
+{
+	cout << "Hello World!\n";
+}
+
+
+Add some codes and get the results as follows:
+
+Initialize
+Hello, World!
+Clear up
+
+
+NOTES: Don't modify the MAIN function any way!
+
+
+
+2.Define an integer set class which is named Set with some memeber functions as follows:
+  a. IsExist(): To judge if an integer is a member of a Set or not;
+  b. RemoveItem(): To delete an integer from the Set;
+  c. IsEqual(): To judge if two Sets are equal or not;
+  d. Intersection(): To intersection with another Set; (交集）
+  e. Union: To union with another Set. （并集）
+  f. AddItem(): To add an integer to Set. 
+     Note: Add an integer successfully when this integer is NOT in the Set and there are enough space to save in the Set.
+  
+NOTES:In order to complement Set class, you can define constructor, member functions with available arguments as well as destrctor if you need.
+
+
+
+
+3.Create a class, IntChar, to archieve an integer to save a string which length is no more than 4.
+  Suppose that a character length is 1 byte.
+
+  For example: "Love", it's binary form associated with an integer is：0100 1100 0110 1111 0111 0110 0110 0101
+               If the string length is less than 4 characters, the remaining part is made up by zero.
+
+ 
+  NOTES:
+  (1) You can define appropriate member functions and variables;
+  (2) The string type in C++ is FORBIDDEN in the IntChar;
+  (3) In main, programmer can call member function in the following way.
+ 
+  void main()
+  {
+      IntChar IC("Love");
+
+      IC.ASC_Print();      // Print the content with string format:  Love
+      IC.Binary_Print();   // Print the content with binary format:  0100 1100 0110 1111 0111 0110 0110 0101
+      IC.Int_Print();      // Print the content with integer format: 1282373221
+  }

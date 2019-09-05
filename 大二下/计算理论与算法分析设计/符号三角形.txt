@@ -1,0 +1,48 @@
+//#include "stdafx.h"
+#include<iostream>
+#include<cstdio>
+using namespace std;
+int n,counter=0,half,sum=0;
+int p[24][24] = { 0 };
+void backtrack(int t)
+{
+	
+	if (counter > half || t*(t - 1)/2 - counter > half) return;
+	if (t > n)
+	{	
+		if (counter == half)
+				sum++;
+		return;
+		}
+			
+	for (int i = 0; i < 2; i++)
+	{
+		p[1][t] = i;
+		counter += i;
+		for (int j = 2; j <= t; j++)
+		{
+			p[j][t - j + 1] = p[j - 1][t - j + 1] ^ p[j - 1][t - j + 2];
+			counter += p[j][t - j + 1];
+		}
+		//cout <<"t:"<<t<<"  i:"<<i<< "  counter:" << counter<<endl;
+		backtrack(t + 1);
+		for (int j = 2; j <= t; j++)
+			counter -= p[j][t - j + 1];
+		counter -= i;
+	}
+
+}
+int main()
+{
+	cin >> n;
+	if ((n*(n + 1) / 2) % 2 == 1) 
+		cout << sum << endl;
+	else
+	{
+		half = n*(n + 1) / 4;
+		//cout << half << endl;
+		backtrack(1);
+		cout << sum << endl;
+	}
+	//system("pause");
+}

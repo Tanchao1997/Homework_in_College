@@ -1,0 +1,45 @@
+// consoleApplication4.cpp: 定义控制台应用程序的入口点。
+//
+
+//#include "stdafx.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define maxlen 100
+int main()
+{
+	int nl1, nq1, num1, mat1[maxlen][3] = { 0 };
+	//int nl2, nq2, num2, mat2[maxlen][3] = { 0 };
+	scanf("%d%d%d", &nl1, &nq1, &num1);
+	int num[maxlen] = { 0 }, cpot[maxlen] = { 0 };
+	int tramat1[maxlen][3] = { 0 };
+	for (int i = 0; i < num1; i++)
+	{
+		scanf("%d%d%d", &mat1[i][0], &mat1[i][1], &mat1[i][2]);
+		num[mat1[i][1]]++;
+	}
+	cpot[1] = 1;
+	for (int i = 2; i <= nq1; i++)
+		cpot[i] = cpot[i - 1] + num[i - 1];
+	printf("num:");
+	for (int i = 1; i <= nq1; i++)
+		printf("%d,", num[i]);
+	printf("\n");
+	printf("cpot:");
+	for (int i = 1; i <= nq1; i++)
+		printf("%d,", cpot[i]);
+	printf("\n");
+	for (int i = 0; i< num1; i++)
+	{
+		tramat1[cpot[mat1[i][1]]][0] = mat1[i][1];
+		tramat1[cpot[mat1[i][1]]][1] = mat1[i][0];
+		tramat1[cpot[mat1[i][1]]][2] = mat1[i][2];
+		cpot[mat1[i][1]]++;
+	}
+	for (int i = 1; i <= num1; i++)
+		printf("%d,%d,%d\n", tramat1[i][0], tramat1[i][1], tramat1[i][2]);
+	/*scanf("%d%d%d", &nl2, &nq2, &num2);
+	for (int i = 0; i < num2; i++)
+		scanf("%d%d%d", &mat2[i][0], &mat2[i][1], &mat2[i][2]);*/
+	//system("pause");
+}

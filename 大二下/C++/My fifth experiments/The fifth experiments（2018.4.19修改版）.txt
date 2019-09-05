@@ -1,0 +1,43 @@
+1. 有货运公司的货运价格根据不同的交通工具（汽车、轮船和飞机）、路程距离和货物重量计价。现编写程序模拟这一过程。要求：
+   基类Vehicle用于定义任意交通工具计价的功能接口，以及类中所需相应的成员数据；
+   不同交通工具对于的各自权重不同。使用如下的计算公式：
+   飞机运费 ＝ 路程距离 × 1.15 ＋ 货物重量 × 1.05
+   轮船运费 ＝ 路程距离 × 1.05 ＋ 货物重量 × 0.9
+   汽车运费 ＝ 路程距离 × 1.2 ＋ 货物重量 × 1.1
+   要考虑到将来还可能增加的运输工具（例如火箭）。需考虑新增加的交通工具的权值如何通过程序指定。
+
+
+2. 编写模板类List，实现链表的插入、删除操作。
+假定有student类的定义，它包含姓名和年龄等属性，则通过List保存Student的对象。
+void main()
+{
+   Student s1("Joan", 22), s2("John", 19);
+   List<Student50> listStudent;
+   listStudent.Add(s1);
+   listStudent.Add(s2);
+   if (listStudent[0] == listStudent[1])
+       cout << "Equal." << endl;
+   else
+       cout << "Not equal." << endl;
+}
+
+
+3. 定义基类Shape：
+class Shape
+{
+  public:
+    virtual double Area() = 0;   // 面积
+    virtual double Volume() = 0; // 体积
+};
+定义派生类Circle，Triangle类，并实现相应的纯虚函数。
+
+这样，通过类CAD来统一操作Circle和Triangle图形。
+class CAD
+{
+  private:
+     Shape& shape;
+  public:
+     CAD(Shape& S) : shape(S);
+     double Area()   { return S.Area(); }
+     double Volume() { return S.Volume(); }
+};

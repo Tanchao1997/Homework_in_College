@@ -1,0 +1,84 @@
+    #include<iostream>  
+    using namespace std;  
+    int n, m;  
+    int map[15][15];  
+    int lx[15],ly[15];  
+    int mat[15];  
+    bool vx[15],vy[15];  
+      
+    bool dfs(int u)  
+    {  
+    vx[u] = true;  
+    for(int v=0; v<n; v++)  
+    {  
+       if(!vy[v] && lx[u]+ly[v] == map[u][v])  
+       {  
+        vy[v] = true;  
+        if(mat[v]==-1 || dfs(mat[v]))  
+        {  
+         mat[v] = u;  
+         return true;  
+        }  
+       }  
+      
+    }  
+    return false;  
+    }  
+    int main()  
+    {  
+    cin>>n;  
+    int i,j,u,v;  
+    for( i=0;i<n;i++)  
+       for( j=0;j<n;j++)  
+       {   
+        cin>>map[i][j];  
+      
+       }  
+       for( i=0;i<n;i++)  
+        for( j=0;j<n;j++)  
+        {   
+         map[i][j]=200-map[i][j];  
+        }   
+        for( u=0;u<n;u++)  
+         lx[u]=-0x1fffffff;  
+        memset(ly, 0, sizeof(ly));  
+        for( u=0; u<n; u++)  
+         for( v=0; v<n; v++)  
+          lx[u] = max(lx[u], map[u][v]);  
+        memset(mat, -1, sizeof(mat));  
+        for( u=0; u<n; u++)  
+        {  
+         while(1)  
+         {  
+          memset(vx, 0, sizeof(vx));  
+          memset(vy, 0, sizeof(vy));  
+          if(dfs(u))  
+           break;  
+          int al = INT_MAX;  
+          for(i=0; i<n; i++)  
+          { if(vx[i])  
+          {  
+           for( j=0;j<n;j++)  
+           {   
+            if(!vy[j])  
+            {  
+             al = min(al, lx[i]+ly[j]-map[i][j]);  
+            }  
+           }  
+          }  
+          }  
+          for( i=0; i<n; i++)  
+          {  
+           if(vx[i])   
+            lx[i] -= al;  
+           if(vy[i])   
+            ly[i] += al;  
+          }  
+         }  
+        }  
+        int res = 0;  
+        for( v=0; v<n; v++)  
+         res += 200-map[mat[v]][v];  
+        cout<<res<<endl;  
+        return 0;  
+    }  

@@ -1,0 +1,9 @@
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\工程文件\订单管理\订单管理\bin\Debug\订单管理.exe
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\工程文件\订单管理\订单管理\bin\Debug\订单管理.pdb
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\工程文件\订单管理\订单管理\obj\Debug\订单管理.csprojResolveAssemblyReference.cache
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\工程文件\订单管理\订单管理\obj\Debug\订单管理.Form1.resources
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\工程文件\订单管理\订单管理\obj\Debug\订单管理.Properties.Resources.resources
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\工程文件\订单管理\订单管理\obj\Debug\订单管理.csproj.GenerateResource.Cache
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\工程文件\订单管理\订单管理\obj\Debug\订单管理.csproj.CoreCompileInputs.cache
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\工程文件\订单管理\订单管理\obj\Debug\订单管理.exe
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\工程文件\订单管理\订单管理\obj\Debug\订单管理.pdb

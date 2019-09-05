@@ -1,0 +1,36 @@
+USE AdventureWorks2016
+GO
+IF OBJECT_ID('Production.RecordUpdatePrice','P')IS NOT NULL
+DROP PROCEDURE Production.RecordUpdatePrice
+GO
+CREATE PROCEDURE Production.RecordUpdatePrice
+@temorderId int,
+@temorderDetailId int,
+@temproductId int,
+@temproductPublicQuote money,
+@tempriceBeforeModify money,
+@tempriceAfterModify money,
+@temmenderId nvarchar(50)
+AS
+BEGIN
+INSERT INTO Production.ProductUpdateLog
+(
+	orderId,
+	orderDetailId,
+	productId,
+	productPublicQuote,
+	priceBeforeModify,
+	priceAfterModify,
+	menderId
+)
+VALUES
+(	
+	@temorderId,
+	@temorderDetailId,
+	@temproductId,
+	@temproductPublicQuote,
+	@tempriceBeforeModify,
+	@tempriceAfterModify,
+	@temmenderId
+)
+END

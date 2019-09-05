@@ -1,0 +1,39 @@
+//#include "stdafx.h"
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+#define MAX_SIZE 1000000
+int mark[MAX_SIZE] = { 0 };//mark用来保存每一组最后结束时间
+struct ACT
+{
+	int start;
+	int end;
+}act[MAX_SIZE];
+int cmp(ACT a, ACT b)
+{
+	if (a.start == b.start) return a.end < b.end;
+	return a.start < b.start;
+}
+int main()
+{
+	int N;
+	cin >> N;
+	for (int i = 0; i < N; i++)
+		cin >> act[i].start >> act[i].end;
+	sort(act, act + N, cmp);
+	int room = 0;
+	for (int i = 0; i < N; i++)
+	{
+		int j = 0;
+		for(j;j<=room;j++)
+			if (act[i].start >= mark[j])
+			{
+				mark[j] = act[i].end;
+				break;
+			}
+		if (j > room) mark[++room] = act[i].end;
+	}
+	cout << room+1<<endl;
+	//system("pause");
+}

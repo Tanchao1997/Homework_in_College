@@ -1,0 +1,142 @@
+//#include "stdafx.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+#define maxcount 100005
+int time[maxcount] = { 0 };
+long long correcttime = 0;
+typedef struct node
+{
+	int weight, height, loc;
+	struct node *ahead;
+	struct node *next;
+}NODE;
+NODE* create(NODE*head, int N)
+{
+	NODE*p = head;
+	p->ahead = (NODE*)malloc(sizeof(NODE));
+	p->ahead->height = 10000000;
+	p->ahead->weight = 0;
+	p->ahead->ahead = NULL;
+	p->ahead->next = p;
+	p->loc = 0;
+	scanf("%d%d", &p->weight, &p->height);
+	NODE* lowest = p;
+	for (int i = 1; i < N; i++)
+	{
+		
+		p->next = (NODE*)malloc(sizeof(NODE));
+		p->next->ahead = p;
+		p = p->next;
+		p->loc = i;
+		p->next = NULL;
+		scanf("%d%d", &p->weight, &p->height);
+		if (lowest->height > p->height)
+		{
+			lowest = p;
+		}
+	}
+	p->next = (NODE*)malloc(sizeof(NODE));
+	p->next->height = 10000000;
+	p->next->weight = 0;
+	p->next->ahead = p;
+	p->next->next = NULL;
+	return(lowest);
+}
+NODE* minNODE(NODE*a,NODE*b)
+{
+	if (a->height > b->height)
+		return b;
+	return a;
+}
+void sumerse(NODE*lc)
+{
+	if (lc->ahead->height>1000000&&lc->next->height>1000000)//最后一个节点
+	{
+		time[lc->loc] = correcttime + lc->weight;
+		free(lc->ahead);
+		free(lc->next);
+		free(lc);
+	}
+	else
+	{
+		if (lc->ahead->height > lc->height&&lc->next->height > lc->height)//该平面即为下一个被淹平面
+		{
+			time[lc->loc] = correcttime + lc->weight;
+			if (lc->ahead->height > lc->next->height)
+			{
+				NODE*ans = lc;
+				correcttime += lc->weight*(lc->next->height - lc->height);
+				lc->next->weight += lc->weight;
+				lc->ahead->next = lc->next;
+				lc->next->ahead = lc->ahead;
+				lc = lc->next;
+				free(ans);
+				sumerse(lc);
+			}
+			else  if(lc->ahead->height < lc->next->height)
+			{
+				NODE*ans = lc;
+				correcttime += lc->weight*(lc->ahead->height - lc->height);
+				lc->ahead->weight += lc->weight;
+				lc->ahead->next = lc -> next;
+				lc->next->ahead = lc->ahead;
+				lc = lc->ahead;
+				free(ans);
+				sumerse(lc);
+			}
+			else
+			{
+				NODE*ans = lc;
+				correcttime += lc->weight*(lc->ahead->height - lc->height);
+				lc->ahead->weight += lc->weight+lc->next->weight;
+				lc->ahead->next = lc->next->next;
+				lc->next->next->ahead = lc->ahead;;
+				lc = lc->ahead;
+				free(ans->next);
+				free(ans);
+				sumerse(lc);
+			}
+		}
+		else if (lc->height == lc->ahead->height || lc->height == lc->next->height)
+		{
+			if (lc->height == lc->ahead->height)
+			{
+				NODE*ans = lc;
+				lc->ahead->weight += lc->weight;
+				lc->ahead->next = lc->next;
+				lc->next->ahead = lc->ahead;
+				lc = lc->ahead;
+				free(ans);
+			}
+			if (lc->height == lc->next->height)
+			{
+				NODE*ans = lc;
+				lc->next->weight += lc->weight;
+				lc->ahead->next = lc->next;
+				lc->next->ahead = lc->ahead;
+				lc = lc->next;
+				free(ans);
+			}
+		}
+		else 
+			sumerse(minNODE(lc->ahead, lc->next));
+	}
+}
+int main()
+{
+	int N;
+	scanf("%d", &N);
+	NODE*head = (NODE*)malloc(sizeof(NODE));
+	head->ahead = NULL;
+	head->next = NULL;
+	head->weight = 0;
+	head->height = 0;
+	NODE*lowest = create(head, N);
+	sumerse(lowest);
+	for (int i = 0; i < N; i++)
+	{
+		printf("%d\n", time[i]);
+	}
+	//system("pause");
+}

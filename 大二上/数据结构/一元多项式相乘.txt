@@ -1,0 +1,217 @@
+#include"stdafx.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+typedef struct node
+{
+	int coef, exp;
+	struct node *next;
+}NODE;
+void input(NODE*head)
+{
+	int flag, sign, sum, x;
+	char c;
+	NODE*p = head;
+	while ((c = getchar()) != '\n')
+	{
+		//printf("LOOP\n");
+		if (c == '<')
+		{
+			sum = 0;
+			sign = 1;
+			flag = 1;
+		}
+		else if (c == '-')
+		{
+			sign = -1;
+		}
+		else if (c >= '0'&&c <= '9')
+		{
+			sum = sum * 10 + c - '0';
+		}
+		else if (c == ',')
+		{
+			if (flag == 1)
+			{
+				x = sign*sum;
+				sum = 0;
+				flag = 2;
+				sign = 1;
+			}
+		}
+		else if (c == '>')
+		{
+			p->next = (NODE*)malloc(sizeof(NODE));
+			p->next->coef = x;
+			//printf("p->next->coef:%d\n ", p->next->coef);
+			p->next->exp = sign*sum;
+			//printf("p->next->exp:%d\n ", p->next->exp);
+			p = p->next;
+			p->next = NULL;
+			flag = 0;
+		}
+	}
+	//printf("Create over!\n");
+	/*NODE*ans = head;
+	while (ans->next !=0)
+	{
+		printf("%d %d\n", ans->next->coef, ans->next->exp);
+		ans = ans->next;
+	}*/
+}
+void output(NODE*head)
+{
+	while (head->next != NULL)
+	{
+		head = head->next;
+		printf("<%d,%d>,", head->coef, head->exp);
+	}
+	printf("\n");
+}
+void multiplication(NODE*head1, NODE*head2, NODE*head3)
+{
+	//printf("Start runing!\n");
+	NODE*h1 = head1->next;
+	NODE*h2 = head2->next;
+	head3->next = (NODE*)malloc(sizeof(NODE));
+	NODE*loc = head3->next;
+	loc->coef = 0;
+	loc->exp = 0;
+	loc->next = NULL;
+	/*while (h1 != NULL)
+	{
+		printf("%d %d\n", h1->coef, h1->exp);
+		h1 = h1->next;
+	}
+	while (h2 != NULL)
+	{
+		printf("%d %d\n", h2->coef, h2->exp);
+		h2 = h2->next;
+	}
+	printf("over\n");
+	h1 = head1->next;
+	h2 = head2->next;*/
+	while (h1 != NULL)
+	{
+		while (h2 != NULL)
+		{
+			//printf("LOOP\n");
+			//printf("%d %d\n", loc->exp, h1->exp + h2->exp);
+			if ((h1->exp + h2->exp) == loc->exp) loc->coef += (h1->coef)*(h2->coef);
+			else
+			{
+				//printf("%d\n", loc->next);
+				while ((loc->next != NULL)&&(loc->next->exp < h1->exp + h2->exp) )
+					{
+						loc = loc->next;
+					}
+				if (loc->next == NULL)
+				{
+					loc->next = (NODE*)malloc(sizeof(NODE));
+					loc = loc->next;
+					loc->exp = h1->exp + h2->exp;
+					loc->coef = h1->coef*h2->coef;
+					//printf("loc->exp:%d\nloc->cpef:%d\n", loc->exp, loc->coef);
+					loc->next = NULL;
+				}
+				else if (loc->next->exp == h1->exp + h2->exp)
+				{
+					loc = loc->next;
+					loc->coef += (h1->coef)*(h2->coef);
+				}
+				else
+				{
+						NODE*ans = (NODE*)malloc(sizeof(NODE));
+						ans->next = loc->next;
+						loc->next = ans;
+						loc = loc->next;
+						loc->exp = h1->exp + h2->exp;
+						loc->coef = h1->coef*h2->coef;
+						//printf("loc->exp:%d\nloc->cpef:%dn", loc->exp, loc->coef);
+				}
+			}
+			h2 = h2->next;
+		}
+		h1 = h1->next;
+		h2 = head2->next;
+		loc = head3->next;
+	}
+	/*printf("LOOP1:\n");
+	loc = head3->next;
+	while (loc != NULL)
+	{
+		printf("%d %d\n", loc->coef, loc->exp);
+		loc = loc->next;
+	}*/
+	loc = head3;
+	while (loc->next != NULL)
+	{
+		if (loc->next->coef == 0)
+		{
+			NODE*ans = loc->next;
+			loc->next = loc->next->next;
+			free(ans);
+		}
+		else
+			loc = loc->next;
+	}
+	/*printf("LOOP2:\n");
+	loc = head3->next;
+	while (loc != NULL)
+	{
+		printf("%d %d\n", loc->coef, loc->exp);
+		loc = loc->next;
+	}*/
+	if (head3->next == NULL)
+	{
+		head3->next = (NODE*)malloc(sizeof(NODE));
+		head3->next->coef = 0;
+		head3->next->exp = 0;
+		head3->next->next = NULL;
+	}
+		/*printf("LOOP3:\n");
+		loc = head3->next;
+		while (loc!= NULL)
+		{
+			printf("%d %d\n", loc->coef, loc->exp);
+			loc = loc->next;
+		}
+	printf("end runing\n");
+	/*NODE*ans = head3;
+	while (ans->next != NULL)
+	{
+		printf("%d %d\n", ans->next->coef, ans->next->exp);
+		ans == ans->next;
+	}*/
+}
+int main()
+{
+	NODE*head1, *head2, *head3;
+	head1 = (NODE*)malloc(sizeof(NODE));
+	input(head1);
+	printf("Head1 has built\n");
+	NODE*ans = head1;
+	while (ans->next != NULL)
+	{
+		printf("%d %d\n", ans->next->coef, ans->next->exp);
+		ans = ans->next;
+	}
+	head2 = (NODE*)malloc(sizeof(NODE));
+	input(head2);
+	printf("Head2 has built\n");
+	ans = head2;
+	while (ans->next != NULL)
+	{
+		printf("%d %d\n", ans->next->coef, ans->next->exp);
+		ans = ans->next;
+	}
+	head3 = (NODE*)malloc(sizeof(NODE));
+	head3->next = NULL;
+	multiplication(head1, head2, head3);
+	printf("Run over\n");
+	output(head3);
+	printf("Output over\n");
+	
+	system("pause");
+	return 0;
+}

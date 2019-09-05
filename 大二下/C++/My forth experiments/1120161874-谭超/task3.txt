@@ -1,0 +1,75 @@
+//#include "stdafx.h"
+#include<iostream>
+#include<cstdio>
+#include<string>
+using namespace std;
+class CSqlStatement
+{
+private:
+	char* store;//store用来存储输入的查询语句
+	string* keyWords;//用来存储对每个问号的替换，例：keyWords[1]是对第一个问号替换的表达式
+	int streLength;//store长度，如果不够则增加
+	int keyWordsLength;//keyWords长度，不够就增加
+public:
+	CSqlStatement()//无参构造函数
+	{
+		streLength = 100;//初始申请100个char长度
+		keyWordsLength =20;//初始申请20个string替换表达式
+		store = new char[streLength];
+		keyWords = new string[keyWordsLength]; 
+	}
+	CSqlStatement(char*);//含参构造函数
+	~CSqlStatement()//析构函数，删除申请的内存
+	{
+		if (store != NULL)
+			delete store;
+		if (keyWords != NULL)
+			delete keyWords;
+	};
+	void SetAttribute(char*, string);//加入对问号的替换表达式
+	void ExecuteSql();//输出构造的SQL语句
+};
+
+CSqlStatement::CSqlStatement(char*str)
+{
+	int length = strlen(str);
+	int count = 0;//记录？的个数
+	for (int i = 0; i < length; i++)
+		if (str[i] == '?') count++;
+	while (streLength < length) streLength += 100;//判断要申请的内存长度
+	while (keyWordsLength < count) keyWordsLength += 20;
+	if (store != NULL) delete store;//若之前已申请内存，要先释放
+	store = new char[streLength];
+	if (keyWords != NULL) delete keyWords;
+	keyWords = new string[keyWordsLength];
+	for (int i = 0; i < length; i++)
+		store[i] = str[i];
+	store[length] = '\0';//结尾加"\0"
+}
+void CSqlStatement::SetAttribute(char* loc, string a)
+{
+	int length = strlen(loc);
+	int location = 0;//将string类型转化为int型位置
+	for (int i = length - 1; i >= 0; i--)
+		location += (loc[i] - '0')*pow(10,(length - i - 1));
+	keyWords[location] = a;
+}
+void CSqlStatement::ExecuteSql()
+{
+	int length = strlen(store);
+	int flag = 0;
+	for (int i = 0; i < length; i++)
+		if (store[i] == '?') cout << keyWords[++flag];//每碰到一个？输出对应位置的替换表达式
+		else cout << store[i];
+}
+int main()
+{
+	CSqlStatement sql = "select ?, ? from student where gender = ? and height >= ? order by ?";
+	sql.SetAttribute("1", "SID");
+	sql.SetAttribute("2", "Name");
+	sql.SetAttribute("3", "female");
+	sql.SetAttribute("4", "165");
+	sql.SetAttribute("5", "gender");
+	sql.ExecuteSql();
+	//system("pause");
+}

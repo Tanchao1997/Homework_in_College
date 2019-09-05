@@ -1,0 +1,104 @@
+//#include "stdafx.h"
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+using namespace std;
+const int MAX_NUM = 26;
+int stayTime[MAX_NUM] = { 0 };//在每个湖停留的时间
+struct Lake
+{
+	int f, d, t;
+}lake[MAX_NUM];
+inline int findMax(int* store, int left, int right)
+{
+	int max = left;
+	for (int i = left + 1; i <= right; i++)
+	{
+		if (store[i] > store[max]) max = i;
+	}
+	return max;
+}
+int max_fishNum(int n, int h)
+{
+	int maxFishNum = 0;
+	for (int i = 0; i < n; i++)
+	{
+		int fishNum = 0;
+		int store[MAX_NUM] = { 0 };
+		for (int i = 0; i < n; i++)
+			store[i] = lake[i].f;
+		int temStore[MAX_NUM] = { 0 };//存储以i结尾的时候在每个湖停留多久
+		int temTime = h * 12 - lake[i].t;//存储除去路上的时间还剩下的时间
+		while (temTime>0)
+		{
+			//cout << "temTime:" << temTime << endl;
+			int loc = findMax(store, 0, i);
+			//cout << "max " << i << ":"<<loc << endl;
+			if (store[loc] <= 0)
+			{
+				temStore[0] += temTime;
+				//	cout << "Break:" << temTime << " +" << temStore[0] << endl;
+				break;
+			}
+			temStore[loc]++;
+			//for (int i = 0; i < n; i++)
+			//cout << temStore[i] << ",";
+			//cout << endl;
+			fishNum += store[loc];
+			//cout <<"ishNUM:"<< fishNum << endl;
+			store[loc] -= lake[loc].d;
+			temTime--;
+		}
+		if (fishNum > maxFishNum)
+		{
+			maxFishNum = fishNum;
+			//memset(time, 00, sizeof(time));
+			for (int i = 0; i < n; i++)
+				stayTime[i] = temStore[i];
+		}
+	}
+	return maxFishNum;
+}
+int main()
+{
+	int n;
+	int h = 0;
+	int flag = 0;
+	while (scanf("%d", &n) && n)
+	{
+		if (flag++ > 0) cout << endl;
+		memset(stayTime, 0, sizeof(stayTime));
+		//cin >> h;
+		scanf("%d", &h);
+		int t;
+		for (int i = 0; i < n; i++)
+			//cin >> lake[i].f;
+			scanf("%d", &lake[i].f);
+		for (int i = 0; i < n; i++)
+			//cin >> lake[i].d;
+			scanf("%d", &lake[i].d);
+		lake[0].t = 0;
+		for (int i = 1; i < n; i++)
+		{
+			scanf("%d",&t);
+			lake[i].t = lake[i - 1].t + t;
+		}
+		//for (int i = 0; i < n; i++)
+		//cout << "lake[" << i << "]:" << lake[i].f << "  " << lake[i].d << "  " << lake[i].t<<endl;
+		int result = max_fishNum(n, h);
+		if (n == 1)
+			//cout << 0 << endl;
+			printf("0\n");
+		else
+		{
+			for (int i = 0; i < n - 1; i++)
+				//cout << 5 * stayTime[i] << ", ";
+				printf("%d, ", 5 * stayTime[i]);
+			//cout << 5 * stayTime[n - 1] << endl;
+			printf("%d\n", 5 * stayTime[n - 1]);
+		}
+		//cout << "Number of fish expected: " << result << endl;
+		printf("Number of fish expected: %d\n" ,result);
+	}
+	//system("pause");
+}

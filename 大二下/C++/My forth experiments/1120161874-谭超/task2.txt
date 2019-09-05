@@ -1,0 +1,234 @@
+//#include "stdafx.h"
+#include<iostream>
+#include<cstdio>
+#include<string>
+using namespace std;
+class Person
+{
+private:
+	string* name;
+	string* sex;
+	string* birth;
+	string* ID;
+	int size;//申请内存大学
+	int num ;//实际人数
+public:
+	Person()
+	{
+		size = 100;
+		name =new string[size];
+		sex = new string[size];
+		birth = new string[size];
+		ID = new string[size];
+		num = 0;
+	};
+	~Person()
+	{
+		if (name != NULL) delete name;
+		if (sex != NULL) delete sex;
+		if (birth != NULL) delete birth;
+		if (ID != NULL) delete ID;
+	}
+	friend void extends(string*a ,int n,int size);//当空间不足时要扩充空间
+	void add(string , string , string , string );//添加人
+};
+void extends(string* a,int n, int size)
+{
+	string*b = new string[size];
+	for (int i = 0; i < n; i++)
+		b[i] = a[i];
+	delete a;
+	a = b;
+}
+void Person::add(string n, string s, string b, string i)
+{
+	if (num >= size)
+	{
+		size += 100;
+		extends(name, num, size);
+		extends(sex, num, size);
+		extends(birth, num, size);
+		extends(ID, num, size);
+	}
+	name[num] = n;
+	sex[num] = s;
+	birth[num] = b;
+	ID[num] = i;
+	num++;
+}
+class Students:public Person
+{
+public:
+	string selectTeacher(string Cname,Course  );//查询某门课是哪位老师
+	string selectGrades(string Cname);//根据课程名称查询成绩
+	int getNum()
+	{
+		return num;
+	}
+	bool match(int i, string ID);//匹配ID
+	void tostring(int i);//获取学生信息
+};
+bool Students::match(int i, string ID)
+{
+	return ~ID.compare(this->ID[i]);
+}
+void Students::tostring(int i)
+{
+	int age;
+	cout << "name:" << name[i] << " sex:" << sex[i] << " age:" << age;
+}
+string Students::selectTeacher(string Cname,Course a)
+{
+	int temNum = a.getNum();
+	for (int i = 0; i <temNum; i++)
+		if (a.matchCname(i, Cname)) return a.getTname(i);//返回匹配成功的人名
+}
+string Students::selectGrades(string Cno,CourseSelect a)
+{
+	int temNum = a.getNum();
+	for (int i = 0; i < temNum; i++)
+		if (a.matchCno(i, Cno)) return a.getGrades(i);//返回匹配成功的成绩
+}
+class Teacher :public Person
+{
+public:
+	string selectStudents(string ID,Students a);//查询学生信息
+	void setGrades(string SId, string Cno);//给出成绩
+};
+
+string Teacher::selectStudents(string ID,Students a)
+{
+	int temNum = a.getNum();
+	for (int i = 0; i < temNum; i++)
+		if (a.match(i, ID)) a.tostring(i);
+}
+void Teacher::setGrades(string SId, string Cno,CourseSelect a,string grades)
+{
+	int temNum = a.getNum();
+	for (int i = 0; i < temNum; i++)
+		if (a.matchSC(i, SID, Cno)) a.setGrades(i, grades);//在匹配成功的位置上输入成绩
+}
+
+class Course
+{
+private:
+	string* Cno;
+	string* Cname;
+	string* Tname;
+	int size;
+	int num;
+public:
+	Course()
+	{
+		size = 100;
+		Cno = new string[size];
+		Cname = new string[size];
+		Tname = new string[size];
+		num = 0;
+	}
+	~Course()
+	{
+		if (Cno!= NULL) delete Cno;
+		if (Cname != NULL) delete Cname;
+		if (Tname != NULL) delete Tname;
+	}
+	void add(string, string, string);//添加课程
+	int getNum()//获取课程总数
+	{
+		return num;
+	}
+	bool matchCname(int i, string Cname);//匹配课程名
+	string getTname(int i);//获取老师名
+};
+void Course::add(string cno, string cname, string tname)
+{
+	if (num >= size)
+	{
+		size += 100;
+		extends(Cno, num, size);
+		extends(Cname, num, size);
+		extends(Tname, num, size);
+	}
+	Cno[num] = cno;
+	Cname[num] = cname;
+	Tname[num] = tname;
+	num++;
+}
+bool Course::matchCname(int i, string Cname)
+{
+	return !Cname.compare(this->Cname[i]);
+}
+string Course::getTname(int i)
+{
+	return Tname[i];
+}
+class CourseSelect
+{
+private:
+	string*SID;
+	string*Cno;
+	string*grades;
+	int num;
+	int size;
+public:
+	CourseSelect()
+	{
+		size = 100;
+		SID = new string[size];
+		Cno = new string[size];
+		grades = new string[size];
+		num = 0;
+	}
+	~CourseSelect()
+	{
+		if (SID != NULL) delete SID;
+		if (Cno != NULL) delete Cno;
+		if (grades != NULL) delete grades;
+	}
+	void add(string, string, string);//添加选课记录
+	int getNum()
+	{
+		return num;
+	}
+	bool matchCno(int i, string Cno);
+	bool matchSC(int i, string SID, string Cno);
+	string getGrades(int i);
+	void setGrades(int i, int grades);
+};
+void CourseSelect::add(string a, string b, string c)
+{
+	if (num >= size)
+	{
+		size += 100;
+		extends(SID, num, size);
+		extends(Cno, num, size);
+		extends(grades, num, size);
+	}
+	SID[num] = a;
+	Cno[num] = b;
+	grades[num] = c;
+	num++;
+}
+bool CourseSelect::matchCno(int i, string Cno)
+{
+	return ~Cno.compare(this->Cno[i]);
+}
+bool CourseSelect::matchCS(int i,string SID, string Cno)//双元素匹配
+{
+	return (~Cno.compare(this->Cno[i]))&&(~SID.compare(this->SID[i]));
+}
+void CourseSelect::setGrades(int i, string grades)
+{
+	this->grades[i] = grades;
+}
+string CourseSelect::getGrades(int i)
+{
+	return grades[i];
+}
+int main()
+{
+	Students students;
+	Teacher teacher;
+	Course course;
+	CourseSelect courseSelect;
+}

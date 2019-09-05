@@ -1,0 +1,86 @@
+//#include "stdafx.h"
+#include<iostream>
+#include<cstdio>
+#include<string>
+using namespace std;
+class Vehicle
+{
+protected:
+	double distance;//定义距离和重量两个变量
+	double weight;
+public:
+	Vehicle();//构造函数
+	virtual double cost()=0;//计算花费的接口
+};
+Vehicle::Vehicle()
+{
+	distance = 0;
+	weight = 0;
+}
+class Airplane:public Vehicle
+{
+private:
+	static const double dWeight;//将两个权重设置为static类型常量
+	static const double wWeight;
+public:
+	Airplane() {};
+	Airplane(double a, double b)
+	{
+	distance = a;
+	weight = b;
+	};
+	double cost()
+	{
+		return(dWeight*distance + wWeight*weight);//计算花费
+	}
+};
+const double Airplane::dWeight = 1.15;//初始化两个权重
+const double Airplane::wWeight = 1.05;
+class Ship :public Vehicle
+{
+private:
+	static const double dWeight;
+	static const double wWeight;
+public:
+	Ship() {};
+	Ship(double a, double b)
+	{
+		distance = a;
+		weight = b;
+	};
+	double cost()
+	{
+		return(dWeight*distance + wWeight*weight);
+	}
+};
+const double Ship::dWeight = 1.05;
+const double Ship::wWeight = 0.9;
+class Car :public Vehicle
+{
+private:
+	static const double dWeight;
+	static const double wWeight;
+public:
+	Car(){};
+	Car(double a, double b)
+	{
+		distance = a;
+		weight = b;
+	};
+	double cost()
+	{
+		return(dWeight*distance + wWeight*weight);
+	}
+};
+const double Car::dWeight = 1.2;
+const double Car::wWeight = 1.1;
+int main()
+{
+	Airplane airPlane(100, 50);//创建AirPlane对象
+	cout << airPlane.cost() << endl;
+	Ship ship(200, 100);//创建Ship对象
+	cout << ship.cost()<<endl;
+	Car car(50, 30);//创建Car对象
+	cout << car.cost() << endl;
+	//system("pause");
+}

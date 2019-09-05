@@ -1,0 +1,45 @@
+//#include "stdafx.h"  
+#include<iostream>  
+#include<cstdio>  
+using namespace std;
+#define MAX_NUM 14  
+int n;
+int tstore[MAX_NUM][MAX_NUM] = { 0 };
+int minTime = 1e9;
+int temTime = 0;
+int storeLoc[MAX_NUM] = { 0 };
+int check(int t, int i)
+{
+	for (int j = 1; j < t; j++)
+		if (storeLoc[j] == i) return 0;
+	return 1;
+}
+void backtrack(int t)
+{
+	if (temTime >= minTime) return;
+	if (t > n)
+	{
+		if (temTime < minTime) minTime = temTime;
+		return;
+	}
+	for (int i = 1; i <= n; i++)
+	{
+		temTime += tstore[t][i];
+		if (check(t, i))
+		{
+			storeLoc[t] = i;
+			backtrack(t + 1);
+		}
+		temTime -= tstore[t][i];
+	}
+}
+int main()
+{
+	scanf("%d", &n);
+	for (int i = 1; i <= n; i++)
+		for (int j = 1; j <= n; j++)
+			scanf("%d", &tstore[i][j]);
+	backtrack(1);
+	cout << minTime << endl;
+	//system("pause");  
+}

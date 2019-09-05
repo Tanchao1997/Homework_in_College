@@ -1,0 +1,46 @@
+// consoleApplication4.cpp: 定义控制台应用程序的入口点。
+//
+
+//#include "stdafx.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define maxlen 100
+int main()
+{
+	char input[maxlen] = { 0 };
+	char stack[maxlen] = { 0 };
+	int top = 0;
+	scanf("%s", input);
+	int len = strlen(input);
+	for(int i=0;i<len;i++)
+	{
+		if (input[i] == '(' || input[i] == '[' || input[i] == '{')
+			stack[++top] = input[i];
+		else if (input[i] == ')')
+				if (stack[top] == '(')
+				{
+					stack[top] = 0;
+					top--;
+				}
+				else stack[++top] = input[i];
+		else if (input[i] == ']')
+			if (stack[top] == '[')
+			{
+				stack[top] = 0;
+				top--;
+			}
+			else stack[++top] = input[i];
+		else if (input[i] == '}')
+			if (stack[top] == '{')
+			{
+				stack[top] = 0;
+				top--;
+			}
+			else stack[++top] = input[i];
+		else ;
+	}
+	if (top == 0) printf("Match succeed!\n");
+	else printf("Match false!\n");
+	//system("pause");
+}

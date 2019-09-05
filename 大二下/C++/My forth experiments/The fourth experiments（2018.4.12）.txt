@@ -1,0 +1,76 @@
+1. The Vehicle is composed of Frame, CarDoor and Tyre.
+
+    1) The statement, cin >> Frame, means that we can input ID and weight of Frame.
+
+    2) The statement, cin >> Cardoor, means that we can input number and color of CarDoor.
+
+    3) The statement, cin >> Tyre, means that we can input number of Tyre。
+
+    4) The statement, cout << Vehicle, means that we can output ID, number of door and tyre.
+
+Write the codes and finish these demands as above.
+
+Note：DON'T define global variables.
+
+
+
+
+2. 人员、student、teacher类，人员类保存姓名，性别，出生年月，ID（学生以入学年份开头，教师以t开头）。
+   要求：1) 学生能知道某一门课是哪位老师讲课;
+
+         2) 学生根据课程名称查询成绩；
+
+         3) 教师通过ID能知道学生的基本信息（姓名、性别和年龄）；
+
+         4) 教师能给出课程成绩；
+
+         5) 根据给出的示例性数据，根据需要补充其他类，综合分析类间的组合、继承关系，完成上述功能。
+
+示例性的数据：
+
+学生姓名    性别     出生年月       ID
+ 李逵        男       1963.8       20120801       
+ 花千羽      女       1999.10      20131011
+ TF-BOY      男       2003.9       20140901
+ 冷冰冰      女       2010.12      20151217
+
+
+教师姓名    性别     出生年月        ID
+ 孙悟空      男       1950.8       t20011211
+ 张三丰      男       1979.10      t20160708
+
+
+课程编号    课程名称    讲课教师
+  COM002    知识图谱     孙悟空
+  COM016    大数据       张三丰
+
+
+ 学生ID       课程编号      成绩
+20120801       COM002        86
+20131011       COM002        77
+20140901       COM002        90
+20151217       COM002        59
+
+
+
+3. 在数据库的查询操作中，对SQL语句的查询构造过程中，一般采用如下类似的方式：
+void main( )
+{
+	string userName, password;
+	cin >> userName >> password;
+	string sql = "select * from DB where userName="+userName+"and password ="+password;
+}
+这种方法容易出现的问题是，如果useName="user"，password = "abc || 1 = = 1"，那么where字句中的密码查询结果永远都是true，造成用户信息泄露。
+为了防止出现类似SQL语句的注入错误，在ODBC或JDBC等的数据库连接与查询过程中，SQL语句一般采用以下方法来构造：
+void main( )
+{
+   CSqlStatement sql ="select ?, ? from student where gender = ? and height >= ? order by ?";
+   sql.SetAttribute("1", "SID");
+   sql.SetAttribute("2", "Name");
+   sql.SetAttribute("3", "female");
+   sql.SetAttribute("4", "165");
+   sql.SetAttribute("5", "gender");
+   sql.ExecuteSql( );
+}
+在main函数中，出现“？”的地方，都默认有一个整数值作为编号依次对应。成员函数SetAttribute通过编号一一对应赋值，并最终构造完整的SQL语句。
+请按照上述main函数中对象sql调用各成员函数的方式来定义CSqlStatement类。成员函数ExecuteSql本意是执行sql语句。但作为实验，改为输出所构造的整个SQL语句即可。

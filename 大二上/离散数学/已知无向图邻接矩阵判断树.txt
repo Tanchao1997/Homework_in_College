@@ -1,0 +1,44 @@
+//#include "stdafx.h"
+#include<stdio.h>
+#include<stdlib.h>
+#define MAXLEN 100
+int link(int map[][MAXLEN], int n)
+{
+	int array[MAXLEN] = { 0 }, flag[MAXLEN] = { 0 };
+	array[0] = 0;
+	int top = 0, countall = 1,ring=0;
+	flag[0] = 1;
+		for(top;top<countall;top++)
+			for (int i = 0; i < n; i++)
+			{
+				if (map[array[top]][i] != 0 && flag[i] == 0)
+				{
+					array[countall++] = i;
+					flag[i] = 1;
+					ring = 1;
+				}
+			}
+		if (countall == n) return 1;
+		return 0;
+}
+int main()
+{
+	int n,count=0;
+	int adj_mat[MAXLEN][MAXLEN] = { 0 };
+	scanf("%d",&n);
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+		{
+			scanf("%d", &adj_mat[i][j]);
+			count += adj_mat[i][j];
+		}
+	count /= 2;
+	if (count != n - 1) printf("no\n");
+	else
+	{
+		if (link(adj_mat, n)) printf("yes\n");
+		else
+			printf("no\n");
+	}
+	//system("pause");
+}

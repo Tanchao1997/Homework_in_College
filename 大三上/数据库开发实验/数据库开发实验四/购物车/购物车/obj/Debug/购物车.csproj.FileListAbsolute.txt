@@ -1,0 +1,9 @@
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\实验\工程文件\购物车\购物车\bin\Debug\购物车.exe
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\实验\工程文件\购物车\购物车\bin\Debug\购物车.pdb
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\实验\工程文件\购物车\购物车\obj\Debug\购物车.csprojResolveAssemblyReference.cache
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\实验\工程文件\购物车\购物车\obj\Debug\购物车.Form1.resources
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\实验\工程文件\购物车\购物车\obj\Debug\购物车.Properties.Resources.resources
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\实验\工程文件\购物车\购物车\obj\Debug\购物车.csproj.GenerateResource.Cache
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\实验\工程文件\购物车\购物车\obj\Debug\购物车.csproj.CoreCompileInputs.cache
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\实验\工程文件\购物车\购物车\obj\Debug\购物车.exe
+C:\Users\tc\Desktop\study\大三上\数据库系统操作\实验\工程文件\购物车\购物车\obj\Debug\购物车.pdb

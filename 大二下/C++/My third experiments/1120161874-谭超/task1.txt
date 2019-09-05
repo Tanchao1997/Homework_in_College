@@ -1,0 +1,153 @@
+#include "stdafx.h"
+#include<iostream>
+#include<cstdio>
+using namespace std;
+class MyString//创建一个MyString类，成员变量有char*型用来存储字符串，int型用来存储字符串长度
+{
+private:
+	char* str;
+	int length;
+public:
+	MyString();//重载构造函数
+	MyString(const char*);
+	MyString(const MyString&);//拷贝构造函数
+	~MyString();
+	int getLength()const;//获取字符串长度
+	char getItem(int)const;//获取某一位置的字符
+	friend MyString& operator+(const MyString&, const MyString&);//重载+符号
+	friend ostream& operator<<(ostream& os, const MyString&);//重载<<符号
+	//MyString& operator=(const MyString& );//重载=符号，但后来修改又觉得不用重载
+	int Find(const MyString&);//重载Find函数
+	int Find(const char);
+	MyString& Mid(const int loc, const int len);//从字符串中截取一段形成新的字符串
+};
+MyString::MyString()
+{
+	str = NULL;
+	length = 0;
+}
+MyString::MyString(const char* a)
+{
+	//cout << "构造char*" << endl;
+	int n = 0;
+	while (a[n] != '\0') {
+		//cout << "a[" << n << "]:" << a[n] << endl;
+		n++;
+	}
+	//cout << "N:" << n << endl;
+	length = n + 1;
+	str = new char[length];
+	for (int i = 0; i <= n; i++)
+		str[i] = a[i];
+	//cout << "str:" << str << endl;
+}
+MyString::MyString(const MyString& a)
+{
+	//cout << "拷贝构造函数" << endl;
+	if(str!=NULL)
+	delete str;//如果该对象之前指向了字符串，此时要将其释放掉
+	str = new char[a.getLength()];
+	for (int i = 0; i < a.getLength(); i++)
+		str[i] = a.getItem(i);//将字符串拷贝过来
+	length = a.getLength();
+}
+MyString::~MyString() {//析构函数，释放之前申请的内存
+	if (str != NULL)
+		delete str;
+}
+int MyString::getLength() const {//获取字符串长度
+	return length;
+}
+char MyString::getItem(int n)const//获取字符串某一位置的字符
+{
+	return str[n];
+}
+MyString& operator+(const MyString& a, const MyString& b) {//将两个字符串合并在一起
+	//cout << "加法运算" << endl;
+	char* store;
+	store = new char[a.getLength() + b.getLength() - 1];
+	for (int i = 0; i < a.getLength() - 1; i++)
+		store[i] = a.getItem(i);
+	for (int i = 0; i < b.getLength(); i++)
+		store[i + a.getLength() - 1] = b.getItem(i);
+	//cout << store << endl;
+	MyString result(store);
+	//cout << "a:" << a << endl;
+	//cout << "b:" << b << endl;
+	//cout << "store:" << store << endl;
+	delete store;//释放掉临时申请的内存
+	return result;
+}
+ostream& operator<<(ostream& os, const MyString& a)//<<重载，直接输出字符串
+{
+	//cout << "输出流" << endl;
+	os << a.str;
+	return os;
+}
+/*MyString& MyString::operator=(const char* s)
+{
+char*store = new char[strlen(s)+1];
+for (int i = 0; i <= strlen(s); i++)
+store[i] = s[i];
+MyString result(store);
+return result;
+//return MyString(store);
+}*/
+/*MyString& MyString::operator=(const MyString& S) {
+	int i;
+	for (i = 0; i<S.getLength(); i++) {
+		str[i] = S.str[i];          //copy to the new string
+	}
+	str[i] = '\0';
+	length = i;
+	return *this;
+}
+*/
+int MyString::Find(const MyString& a)//找到该子字符串首次出现的位置
+{
+	for (int i = 0; i<getLength(); i++)
+		if (getItem(i) == a.getItem(0))
+		{
+			int j = 1;
+			for (j = 1; j < a.getLength(); j++)
+				if (getItem(i + j) != a.getItem(i)) break;
+			if (j >= a.getLength()) return i;
+		}
+	return -1;
+}
+int MyString::Find(const char a)//找到该字符首次出现的位置
+{
+	for (int i = 0; i < getLength(); i++)
+		if (getItem(i) == a)
+			return i;
+	return -1;
+}
+MyString& MyString::Mid(const int loc, const int leng)//截取某一段字符串
+{
+	char*store = new char[leng + 1];
+	for (int i = 0; i < leng; i++)
+		store[i] = getItem(i + loc);
+	store[leng] = '\0';
+	MyString result(store);
+	delete store;
+	return result;
+}
+int main()
+{
+	MyString s1("China"), s2;
+	s2 = "Love";//此处出现问题尚未解决
+				//s2的构造函数调用成功，但输出时s2中存储的是一堆乱码。
+				//求原因！！！！！
+	/*cout << "test one by one" << endl;
+	for (int i = 0; i < s2.getLength(); i++)
+		cout << s2.getItem(i);
+	cout << endl;
+	cout << s1 << "  " << s2 << endl;*/
+	cout << "I" + s2 + s1;
+	int pos = s1.Find('a');
+	cout << pos;
+	int a = 1, b = 3;
+	MyString my = s2.Mid(a, b);
+	cout << my;
+	system("pause");
+}

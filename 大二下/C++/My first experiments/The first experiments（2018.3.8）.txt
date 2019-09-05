@@ -1,0 +1,29 @@
+1. Read the codes carefully on page 230 and page 248 of the book, 
+   or on page 247 and page 266 of the e-book, then answer
+   the questions as below:
+  1.1 Describe the main data structure of Stack£»
+  1.2 Describe the differences in the data storage of Stash and Stack.
+  Notice: The answer can be written in English or Chinese.
+
+
+
+2. Create a program that opens a text file in English and counts 
+   the words number in that file.
+   NOTE: I)  Words are seperated by spaces(one or more spaces).
+         II) A number or continous numbers are not WORD.
+
+
+3. Create a class Point, and finish the following functions as below:
+  4.1 Define two member variables, X and Y, as coordinate, and the other member variable R is radius;
+  4.2 Define a member function, Distace, to calculate the distance between two points.
+  4.3 Define a member function, Relationship, to judge the relationship such as seperation, intersection, tangent(intenally or externally tangent) between two circles. 
+  Note: You can define appropriate parameters according to your member functions.
+
+
+
+[optional question] 
+
+   Define an array of int. Take the starting address of that array and use static_cast to convert it into and void*. 
+   Write a function that takes a void*, a number(indicating a number of bytes), and a value(indicating the value to which each byte should be set) as arguments. 
+   The function should set each byte in the specified range to the spcified value. Try out the function on your array of int.
+      

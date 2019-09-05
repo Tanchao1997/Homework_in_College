@@ -1,0 +1,67 @@
+#include<iostream>
+#include<cstring>
+using namespace std;
+class InternetURL//创建一个InternetURL类 ，该类用一个MyString类对储存地址 
+{
+	private:
+		MyString URL;
+	public:
+		InternetURL();//重载构造函数 
+		InternerURL(MyString s);
+		MyString GetDomain();//获取域名 
+		MyString GetDomainCountry();//获取域名国家 
+		MyString GetDomainType(); //获取域名类型 
+}
+InternetURL::	InternetURL()
+{
+	URL=NULL;
+}
+InternetURL::	InternetURL(MyString s)
+{
+	URL=s;
+}
+MyString InternetURL::	GetDomain()//找到第一个'/'符号，之前的为域名 
+{
+	int i=0;
+	if(URL.getData(i)!='/'&&i<URL.getLength())
+		i++;
+	MyString result=URL.Mid(0,i);
+	return result;
+}
+MyString InternetURL::GetDomainCountry()//先找到域名，再着最后一个'.'符号，之后的为域名国家 
+{
+	MyString URLGD= GetDomain();
+	int i=URLGD.getLength()-2;//i记录最后一个'.'后一个字符的地址 
+	if(i>=0&&URLGD.getData(i)!='.')
+	i--;
+	MyString result=URLGD.Mid(i+1,URLGD.getLength()-i-2);//获取域名国家 
+	return result;
+}
+MyString InternetURL::GetDomainType()//先找到域名，再找到第二个'.'符号， 该符号和第三个'.'之间的为域名类型 
+{
+	int flag=0;
+	int i=0;
+	int start=0;//第二个'.'之后的第一个字符所在位置 
+	int length=0; //第二个'.'和第三个'.'之间的字符个数 
+	MyString URLGD= GetDomain();
+	while(i<URLGD.getLength())//找第二个'.'之后的第一个字符所在位置 
+	{
+		if(URLGD.getData(i)=='.') falg++;
+		if(flag==2) 
+		{
+			start=i+1; 
+			break;
+		} 
+		i++;
+	}
+	while(URLGD.getData(start+length)!='.') length++;//找第二个'.'和第三个'.'之间的字符个数
+	MyString result=URLGD.Mid(start,length);//获取域名类型 
+	return result; 
+} 
+int main()
+{
+	InternetURL loc("www.bit.edu.cn/jwc/080329.html");//创建一个域名对象 
+	cout<<loc.GetDomain()<<endl;
+	cout<<loc.GetDomainCountry()<<endl;
+	cout<<loc.GetDomainType()<<endl;
+}

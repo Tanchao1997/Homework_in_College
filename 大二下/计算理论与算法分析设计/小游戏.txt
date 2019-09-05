@@ -1,0 +1,58 @@
+，每次将每个叶子节点的父亲放置一个士兵，几个叶子结点的共同父节点只放一次。
+
+
+//#include "stdafx.h"
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<string.h> 
+using namespace std;
+#define MAX_SIZE 1501
+int minSoliders(int* father, int* numOfSon, int n)
+{
+	int soliderNum = 0;
+	int flag = 1;
+	while (flag)
+	{
+		flag = 0;
+		for(int i=0;i<n;i++)
+			if (numOfSon[i] == 0&&numOfSon[father[i]]>0)
+			{
+				soliderNum++;
+				flag++;
+				numOfSon[i]=-1;
+				numOfSon[father[i]] = -1;
+				numOfSon[father[father[i]]]--;
+			}
+	}
+	return soliderNum;
+}
+int main()
+{
+	int father[MAX_SIZE];
+	int numOfSon[MAX_SIZE] = { 0 };
+	int n;
+	while (scanf("%d", &n) != EOF)
+	{
+		//memset(father, 0, sizeof(father));
+		for(int i=0;i<n;i++)
+			father[i]=-1;
+		memset(numOfSon, 0, sizeof(numOfSon));
+		int a, b;
+		for (int i = 0; i < n; i++)  
+		{
+			scanf("%d:(%d)", &a, &b);
+			//cout<<"a:"<<a<<endl;
+			//cout<<"b:"<<b<<endl;
+			numOfSon[a] = b;
+			for (int j = 0; j < b; j++)
+			{
+				int c;
+				scanf("%d", &c);
+				father[c] = a;
+			}
+		}
+		cout << minSoliders(father, numOfSon, n) << endl;
+	}
+	//system("pause");
+}

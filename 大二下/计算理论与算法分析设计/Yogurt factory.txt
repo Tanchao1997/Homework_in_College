@@ -1,0 +1,38 @@
+
+//#include "stdafx.h"
+#include<iostream>
+#include<cstdio>
+#include<string>
+#include<stdlib.h>
+#include <algorithm>
+using namespace std;
+#define MAX_LENGTH 10000
+long long plan(int N, int S, int*cost, int*deliver)
+{
+	long long result=0;
+	int flag = 5000;
+	for (int i = 0; i < N; i++)
+	{
+		flag += S;
+		if (flag < cost[i]) {
+			result += flag*deliver[i];
+		}
+		else {
+			result += cost[i] * deliver[i];
+			flag = cost[i];
+		}
+	}
+	return result;
+}
+int main()
+{
+	int N, S;
+	int cost[MAX_LENGTH] = { 0 };
+	int deliver[MAX_LENGTH] = { 0 };
+	cin >> N >> S;
+	for (int i = 0; i < N; i++)
+		cin >> cost[i] >> deliver[i];
+	long long minCost = plan(N, S, cost, deliver);
+	cout << minCost << endl;
+	//system("pause");
+}

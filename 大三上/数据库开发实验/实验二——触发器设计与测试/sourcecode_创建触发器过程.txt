@@ -1,0 +1,53 @@
+USE AdventureWorks2016
+GO
+IF OBJECT_ID('Sales.PriceUpdate','TR')IS NOT NULL
+DROP TRIGGER Sales.PriceUpdat
+GO
+CREATE TRIGGER Sales.PriceUpdat ON Sales.SalesOrderDetail INSTEAD OF UPDATE
+AS
+IF(EXISTS(SELECT I.UnitPrice FROM Production.ProductListPriceHistory P,inserted I 
+			WHERE P.ProductID=I.ProductID AND I.UnitPrice>P.ListPrice  ))
+BEGIN
+RAISERROR('更新的产品单价不能大于产品的公开报价',10,1)
+ROLLBACK TRANSACTION
+END
+
+ELSE
+BEGIN
+DECLARE 
+@temorderId int,
+@temorderDetailId int,
+@temproductId int,
+@temproductPublicQuote money,
+@tempriceBeforeModify money,
+@tempriceAfterModify money,
+@temmenderId nvarchar(50)
+SELECT @temorderId=SalesOrderID,
+	@temorderDetailId=SalesOrderDetailID,
+	@temproductId=ProductID,
+	@tempriceAfterModify=UnitPrice FROM inserted
+SELECT @temproductPublicQuote=ListPrice
+FROM Production.Product P
+WHERE P.ProductId=( SELECT ProductId From inserted)
+
+UPDATE Sales.SalesOrderDetail
+SET UnitPrice=@tempriceAfterModify
+WHERE Sales.SalesOrderDetail.SalesOrderID=@temorderId
+AND Sales.SalesOrderDetail.SalesOrderDetailID=@temorderDetailId
+
+SELECT @tempriceBeforeModify=UnitPrice
+FROM deleted D
+WHERE D.ProductID=(SELECT ProductID FROM inserted)
+
+SELECT @temmenderId=SYSTEM_USER
+
+EXECUTE Production.RecordUpdatePrice
+@temorderId ,
+@temorderDetailId ,
+@temproductId,
+@temproductPublicQuote,
+@tempriceBeforeModify,
+@tempriceAfterModify,
+@temmenderId 
+
+END

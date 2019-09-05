@@ -1,0 +1,413 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 2018/05/30 11:36:58
+// Design Name: 
+// Module Name: stopwatch
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module stopwatch(
+    input clk,
+    input reset,
+    input start,
+    input stop,
+    output  min,
+    output aler,
+    output [6:0]seg,
+    output [3:0]an,
+    output dp
+    );
+    wire clk_out;
+    wire limit;
+    wire control;
+    wire[16:0] out;
+    //parameter test = 4'b10100001100100001;
+    clk_divider u2(
+    .clk(clk),
+    .reset(reset),
+    .clk_out(clk_out)
+    );
+    
+    watch_control u1(
+        .start(start),
+        .stop(stop || limit),
+        .reset(reset),
+        .clk(clk),
+        .control(control)
+    );
+    
+    counter u3(
+        .control(control),
+        .clk(clk_out),
+        .reset(reset),
+        .out(out),
+        .limit(limit)
+    );
+    
+    seg7 u_seg7(
+        .out(out),
+        .clk(clk_out),
+        .reset(reset),
+        .seg(seg),
+        .limit(limit),
+        .an(an),
+        .min(min),
+        .aler(aler),
+        .dp(dp)
+    );
+
+endmodule
+
+module clk_divider(
+    input clk,
+    input reset,
+    output reg clk_out
+);
+
+parameter count_limit = 49999;
+reg [31:0] count;
+
+always @(posedge clk or posedge reset)
+begin
+    if(reset)begin
+        count <= 0;
+        clk_out <= 0;
+    end
+    else
+        if(count == count_limit)begin
+            count <= 0;
+            clk_out <= !clk_out;
+        end
+        else begin
+            count <= count + 1;
+        end
+end
+endmodule
+
+module watch_control(
+    input start,
+    input stop,
+    input reset,
+    input clk,
+    output reg control
+);
+
+parameter START = 1'b1;
+parameter STOP = 1'b0;
+
+reg state,nextstate;
+
+always @(posedge clk or posedge reset)
+begin
+    if(reset)
+        state <= STOP;
+    else
+        state <= nextstate;
+end
+
+always @(*)
+begin
+    if(state == STOP)begin
+        if(stop)begin
+            nextstate = STOP;
+            control = STOP;
+        end
+        else begin
+        if(start)begin
+            nextstate = START;
+            control = START;
+            end
+          end
+       end
+    else begin
+        if(start)begin
+            nextstate = START;
+            control = START;
+        end
+        else begin
+        if(stop)begin
+            nextstate = STOP;
+            control = STOP;
+            end
+         else begin
+         nextstate = START;
+         control = START;
+         end
+        end
+    end
+end
+endmodule
+
+module counter(
+    input control,
+    input clk,
+    input reset,
+    output [16:0] out,
+    output [4:0] _out,
+    output limit
+);
+
+wire tc00,tc0,tc1,tc2,tc3;
+
+assign limit = (out == 17'b10101100110011001) ? 1'b1 : 1'b0;
+
+counter10 u_0(
+    .control(control),
+    .clk(clk),
+    .reset(reset),
+    .out(_out[3:0]),
+    .tc(tc00)
+);
+
+counter10 u_1(
+    .control(control&&tc00),
+    .clk(clk),
+    .reset(reset),
+    .out(out[3:0]),
+    .tc(tc0)
+);
+
+counter10 u_2(
+    .control(control && tc0&&tc00),
+    .clk(clk),
+    .reset(reset),
+    .out(out[7:4]),
+    .tc(tc1)
+);
+
+counter10 u_3(
+    .control(control && tc0 && tc1&&tc00),
+    .clk(clk),
+    .reset(reset),
+    .out(out[11:8]),
+    .tc(tc2)
+);
+
+counter6 u_4(
+    .control(control && tc0 && tc1 && tc2&&tc00),
+    .clk(clk),
+    .reset(reset),
+    .out(out[15:12]),
+    .tc(tc3)
+);
+
+counter2 u_5(
+    .control(control && tc0 && tc1 && tc2 && tc3&&tc00),
+    .clk(clk),
+    .reset(reset),
+    .out(out[16])
+);
+
+endmodule
+
+module counter11(
+    input control,
+    input clk,
+    input reset,
+    output reg[3:0] out,
+    output tc
+);
+parameter cont_limit = 9;
+reg [31:0] cont;
+assign tc =(out == 4'b1001) ? 1'b1 : 1'b0;
+
+always @(posedge clk or posedge reset)
+begin
+    if(reset)begin
+        out<=0;
+        cont<=0;
+    end
+    else if(control)begin
+		if(cont==cont_limit)begin
+			cont<= 0;
+			if(out == 4'b1001)begin
+				out <= 0;
+			 end
+			else begin
+				out <= out + 1;
+			end
+		end			
+		else begin
+			cont<=cont+1;
+		end
+    end
+    else begin
+        out <= out;
+    end
+end
+
+endmodule
+
+module counter10(
+    input control,
+    input clk,
+    input reset,
+    output reg[3:0] out,
+    output tc
+);
+
+assign tc =(out == 4'b1001) ? 1'b1 : 1'b0;
+
+always @(posedge clk or posedge reset)
+begin
+    if(reset)begin
+        out<=0;
+    end
+    else if(control)begin
+        if(out == 4'b1001)
+            out <= 0;
+        else
+            out <= out + 1;
+        end
+        else begin
+            out <= out;
+        end
+end
+
+endmodule
+
+module counter6(
+    input control,
+    input clk,
+    input reset,
+    output reg[3:0] out,
+    output tc
+);
+
+assign tc =(out == 4'b0101) ? 1'b1 : 1'b0;
+
+always @(posedge clk or posedge reset)
+begin
+    if(reset)begin
+        out <= 0;
+    end
+    else if(control)begin
+        if(out == 4'b0101)
+            out <= 0;
+        else
+            out <= out + 1;
+        end
+        else begin
+            out <= out;
+        end
+end
+
+endmodule
+
+module counter2(
+    input control,
+    input clk,
+    input reset,
+    output reg out
+);
+
+always @(posedge clk or posedge reset)
+begin
+    if(reset)begin
+        out <= 0;
+    end
+    else if(control)begin
+            if(out == 1'b1)
+                out <= 0;
+            else
+                 out <= out+1;
+            end
+        else begin
+            out <= out;
+        end
+end
+endmodule
+
+module seg7(
+    input [16:0] out,
+    input clk,
+    input reset,
+    input limit,
+    output reg [6:0]seg,
+    output reg [3:0]an,
+    output reg min,
+    output reg aler,
+    output dp
+);
+
+reg [1:0] count;
+reg [3:0] selected_data;
+
+always @(posedge clk or posedge reset)
+begin
+    if(reset)
+        count <= 0;
+    else if(count == 2'b11)
+            count <= 0;
+        else
+            count <= count + 1;
+end
+
+always @(*)
+begin
+    if(limit)
+        aler =1;
+    else
+     aler =0;
+end
+
+always @(*)
+begin
+    case(count)
+            2'b00: an = 4'b0001;
+            2'b01: an = 4'b0010;
+            2'b10: an = 4'b0100;
+            2'b11: an = 4'b1000;
+            default: an = 4'b0000;
+    endcase
+end
+
+assign dp =(an == 4'b0100) ? 1'b1 : 1'b0;
+
+always @(*)
+begin
+    case(count)
+        2'b00: selected_data = out[3:0];
+        2'b01: selected_data = out[7:4];
+        2'b10: selected_data = out[11:8];
+        2'b11: selected_data = out[15:12];
+        default: selected_data = 4'b0000;
+    endcase
+end
+
+always @ (*)
+begin
+    case (selected_data)
+        4'b0000: seg = 7'b1111110;
+        4'b0001: seg = 7'b0110000;
+        4'b0010: seg = 7'b1101101;
+        4'b0011: seg = 7'b1111001;
+        4'b0100: seg = 7'b0110011;
+        4'b0101: seg = 7'b1011011;
+        4'b0110: seg = 7'b1011111;
+        4'b0111: seg = 7'b1110000;
+        4'b1000: seg = 7'b1111111;
+        4'b1001: seg = 7'b1111011;
+        default: seg = 7'b0000000;
+    endcase
+end
+always @(*)
+begin
+    min = out[16];
+end
+
+endmodule

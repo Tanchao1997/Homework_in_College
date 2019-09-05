@@ -1,0 +1,33 @@
+
+// ConsoleApplication5.cpp: 定义控制台应用程序的入口点。
+//
+
+//#include "stdafx.h"
+#include<iostream>
+#include<cstdio>
+#include<limits.h>
+#include<cmath>
+const int MAX_LENGTH = 16;
+using namespace std;
+int main()
+{
+	int N;
+	while (scanf("%d", &N) && N != -1)
+	{
+		if (N % 2 == 1)
+		{
+			cout << 0<<endl;
+		}
+		else
+		{
+			int f[MAX_LENGTH] = { 0 };
+			f[0] = 1;
+			f[1] = 3;
+			int a = N / 2;
+			for (int i = 2; i <= a; i++)
+			f[i] = 4 * f[i - 1] - f[i - 2];
+			cout << f[a]<<endl;
+		}
+	}
+//	system("pause");
+}

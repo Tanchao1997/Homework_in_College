@@ -1,0 +1,41 @@
+    //#include"stdafx.h"  
+    #include <iostream>  
+    #define max_num 2000005  
+    long long x, y[max_num] = { 0 };  
+    int n = 0;  
+    int rem=0;  
+    long long Loc(int left, int right)  
+    {  
+        //if(left==right) return y[left];  
+        int flag = left;  
+        int l = left+1, r = right;  
+        while (l <= r)  
+        {  
+            while (y[r] >= y[flag] && r >left) r--;  
+            while (y[l] <= y[flag] && l <=right) l++;  
+            if (l < r)  
+            {  
+                long long f = y[l];  
+                y[l] = y[r];   
+                y[r] = f;  
+            }  
+            if(r>left||l<=right) rem++;  
+        }  
+        if(rem<=0) return y[flag];  
+        long long f = y[r];  
+        y[r] = y[flag];  
+        y[flag] = f;  
+        flag = r;  
+        if (flag == n / 2) return y[flag];  
+        else if (flag < n / 2) return(Loc(flag+1, right));  
+        else return(Loc(left, flag-1));  
+    }  
+    int main()  
+    {  
+        while (scanf("%lld,%lld", &x, &y[n++])!=EOF);  
+        n-=2;  
+        printf("%lld\n",Loc(0, n ));  
+    //  system("pause");  
+    }  
+
+

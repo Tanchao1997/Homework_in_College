@@ -1,0 +1,1 @@
+grammer.exe运行时需要两个参数，第一个是已经得到的保存词法分析结果的.xml文件，第二个是将要保存语法分析结果的.xml文件。grammerC.g是ANTLRWorks下的文法表示。，需要用ANTLRWorks打开。

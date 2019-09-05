@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="SalesOrderHeader" msprop:Generator_TableClassName="SalesOrderHeaderDataTable" msprop:Generator_TableVarName="tableSalesOrderHeader" msprop:Generator_RowChangedName="SalesOrderHeaderRowChanged" msprop:Generator_TablePropName="SalesOrderHeader" msprop:Generator_RowDeletingName="SalesOrderHeaderRowDeleting" msprop:Generator_RowChangingName="SalesOrderHeaderRowChanging" msprop:Generator_RowEvHandlerName="SalesOrderHeaderRowChangeEventHandler" msprop:Generator_RowDeletedName="SalesOrderHeaderRowDeleted" msprop:Generator_RowClassName="SalesOrderHeaderRow" msprop:Generator_UserTableName="SalesOrderHeader" msprop:Generator_RowEvArgName="SalesOrderHeaderRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SalesOrderID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_ColumnVarNameInTable="columnSalesOrderID" msprop:Generator_ColumnPropNameInRow="SalesOrderID" msprop:Generator_ColumnPropNameInTable="SalesOrderIDColumn" msprop:Generator_UserColumnName="SalesOrderID" type="xs:int" />
+              <xs:element name="OrderDate" msprop:Generator_ColumnVarNameInTable="columnOrderDate" msprop:Generator_ColumnPropNameInRow="OrderDate" msprop:Generator_ColumnPropNameInTable="OrderDateColumn" msprop:Generator_UserColumnName="OrderDate" type="xs:dateTime" />
+              <xs:element name="DueDate" msprop:Generator_ColumnVarNameInTable="columnDueDate" msprop:Generator_ColumnPropNameInRow="DueDate" msprop:Generator_ColumnPropNameInTable="DueDateColumn" msprop:Generator_UserColumnName="DueDate" type="xs:dateTime" />
+              <xs:element name="ShipDate" msprop:Generator_ColumnVarNameInTable="columnShipDate" msprop:Generator_ColumnPropNameInRow="ShipDate" msprop:Generator_ColumnPropNameInTable="ShipDateColumn" msprop:Generator_UserColumnName="ShipDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Status" msprop:Generator_ColumnVarNameInTable="columnStatus" msprop:Generator_ColumnPropNameInRow="Status" msprop:Generator_ColumnPropNameInTable="StatusColumn" msprop:Generator_UserColumnName="Status" type="xs:unsignedByte" />
+              <xs:element name="SalesOrderNumber" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnSalesOrderNumber" msprop:Generator_ColumnPropNameInRow="SalesOrderNumber" msprop:Generator_ColumnPropNameInTable="SalesOrderNumberColumn" msprop:Generator_UserColumnName="SalesOrderNumber" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="SalesOrderDetail" msprop:Generator_TableClassName="SalesOrderDetailDataTable" msprop:Generator_TableVarName="tableSalesOrderDetail" msprop:Generator_TablePropName="SalesOrderDetail" msprop:Generator_RowDeletingName="SalesOrderDetailRowDeleting" msprop:Generator_RowChangingName="SalesOrderDetailRowChanging" msprop:Generator_RowEvHandlerName="SalesOrderDetailRowChangeEventHandler" msprop:Generator_RowDeletedName="SalesOrderDetailRowDeleted" msprop:Generator_UserTableName="SalesOrderDetail" msprop:Generator_RowChangedName="SalesOrderDetailRowChanged" msprop:Generator_RowEvArgName="SalesOrderDetailRowChangeEvent" msprop:Generator_RowClassName="SalesOrderDetailRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SalesOrderID" msprop:Generator_ColumnVarNameInTable="columnSalesOrderID" msprop:Generator_ColumnPropNameInRow="SalesOrderID" msprop:Generator_ColumnPropNameInTable="SalesOrderIDColumn" msprop:Generator_UserColumnName="SalesOrderID" type="xs:int" />
+              <xs:element name="SalesOrderDetailID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_ColumnVarNameInTable="columnSalesOrderDetailID" msprop:Generator_ColumnPropNameInRow="SalesOrderDetailID" msprop:Generator_ColumnPropNameInTable="SalesOrderDetailIDColumn" msprop:Generator_UserColumnName="SalesOrderDetailID" type="xs:int" />
+              <xs:element name="CarrierTrackingNumber" msprop:Generator_ColumnVarNameInTable="columnCarrierTrackingNumber" msprop:Generator_ColumnPropNameInRow="CarrierTrackingNumber" msprop:Generator_ColumnPropNameInTable="CarrierTrackingNumberColumn" msprop:Generator_UserColumnName="CarrierTrackingNumber" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="OrderQty" msprop:Generator_ColumnVarNameInTable="columnOrderQty" msprop:Generator_ColumnPropNameInRow="OrderQty" msprop:Generator_ColumnPropNameInTable="OrderQtyColumn" msprop:Generator_UserColumnName="OrderQty" type="xs:short" />
+              <xs:element name="ProductID" msprop:Generator_ColumnVarNameInTable="columnProductID" msprop:Generator_ColumnPropNameInRow="ProductID" msprop:Generator_ColumnPropNameInTable="ProductIDColumn" msprop:Generator_UserColumnName="ProductID" type="xs:int" />
+              <xs:element name="SpecialOfferID" msprop:Generator_ColumnVarNameInTable="columnSpecialOfferID" msprop:Generator_ColumnPropNameInRow="SpecialOfferID" msprop:Generator_ColumnPropNameInTable="SpecialOfferIDColumn" msprop:Generator_UserColumnName="SpecialOfferID" type="xs:int" />
+              <xs:element name="UnitPrice" msprop:Generator_ColumnVarNameInTable="columnUnitPrice" msprop:Generator_ColumnPropNameInRow="UnitPrice" msprop:Generator_ColumnPropNameInTable="UnitPriceColumn" msprop:Generator_UserColumnName="UnitPrice" type="xs:decimal" />
+              <xs:element name="UnitPriceDiscount" msprop:Generator_ColumnVarNameInTable="columnUnitPriceDiscount" msprop:Generator_ColumnPropNameInRow="UnitPriceDiscount" msprop:Generator_ColumnPropNameInTable="UnitPriceDiscountColumn" msprop:Generator_UserColumnName="UnitPriceDiscount" type="xs:decimal" />
+              <xs:element name="LineTotal" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnLineTotal" msprop:Generator_ColumnPropNameInRow="LineTotal" msprop:Generator_ColumnPropNameInTable="LineTotalColumn" msprop:Generator_UserColumnName="LineTotal" type="xs:decimal" minOccurs="0" />
+              <xs:element name="rowguid" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnrowguid" msprop:Generator_ColumnPropNameInRow="rowguid" msprop:Generator_ColumnPropNameInTable="rowguidColumn" msprop:Generator_UserColumnName="rowguid" type="xs:string" />
+              <xs:element name="ModifiedDate" msprop:Generator_ColumnVarNameInTable="columnModifiedDate" msprop:Generator_ColumnPropNameInRow="ModifiedDate" msprop:Generator_ColumnPropNameInTable="ModifiedDateColumn" msprop:Generator_UserColumnName="ModifiedDate" type="xs:dateTime" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:SalesOrderHeader" />
+      <xs:field xpath="mstns:SalesOrderID" />
+    </xs:unique>
+    <xs:unique name="SalesOrderDetail_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:SalesOrderDetail" />
+      <xs:field xpath="mstns:SalesOrderID" />
+      <xs:field xpath="mstns:SalesOrderDetailID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

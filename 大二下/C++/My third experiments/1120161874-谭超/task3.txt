@@ -1,0 +1,96 @@
+// ConsoleApplication6.cpp: 定义控制台应用程序的入口点。
+//
+
+#include "stdafx.h"
+#include<iostream>
+#include<cstdio>
+#include<string>
+using namespace std;
+class LINT {		//定义LINT类
+private:
+	int data[100];//用一个int数组来存储大整数，每个int存一位
+	int length;//用来记录大整数的位数
+public:
+	LINT();			//两个重载的构造函数，一个没有参数，一个有参数
+	LINT(char*);
+	void setLength(int a);//设定当前大整数位数，主要在做加法时便于确定对应位置
+	int getLength() const;//获取当前大整数的位数
+	void setData(int i,int a);//改变大整数的某一位的值，主要用于加法时
+	int getData(int i)const;//获取某一位的数
+	LINT ADD(const LINT& L);//实现两个大整数的假加法
+	friend ostream& operator<<(ostream&, const LINT&);//输出流操作符<<重载
+};
+LINT::LINT()//若无参数则都置为0
+{
+	for (int i = 0; i < 100; i++)
+		data[i] = 0;
+	length = 0;
+}
+LINT::LINT(char*a)//若有参数则转化位相应的整数并保存整数位数
+{
+	LINT();//全先置为0，以防有未初始化的位
+	int i = 0;
+	while (a[i] >= '0'&&a[i] < '9') i++;
+	length = i;
+	for (int j = 1; j <= i; j++)
+		data[100 - j] = a[i-j]-'0';
+}
+void LINT::setLength(int a)
+{
+	length = a;
+}
+int LINT::getLength() const
+{
+	return length;
+}
+void LINT::setData(int i, int a)
+{
+	data[i] = a;
+}
+int LINT::getData(int i)const
+{
+	return data[i];
+}
+LINT LINT::ADD(const LINT& L)
+{
+	LINT result;//创建一个LINT类用于储存结果
+	if (getLength() > L.getLength()) result.setLength(getLength());
+	else result.setLength(L.getLength());//得到两个大整数的最长位数并暂时作为结果的位数
+	int carry = 0;//设定进位值
+	int i = 0;
+	int len = result.getLength();
+	while (i<len)//每个LINT类中data中数值从最后一位开始存储
+	{
+		int r = (getData(99 - i) + L.getData(99 - i) + carry) %10;
+		result.setData(99 - i, r);
+		carry = (getData(99 - i) + L.getData(99 - i) + carry) / 10;
+		i++;
+	}
+	if (carry > 0)
+	{
+		result.setData(99 - len, carry);
+		result.setLength(len + 1);
+	}
+	return result;
+}
+ostream& operator<<(ostream& os, const LINT& L)//重载<<用于输出LINT类对象
+{
+	for(int i=L.getLength()-1;i>=0;i--)
+	os << L.data[99-i];
+	return os;
+}
+int main()
+{
+	char c[100] = {'\n'};
+	char d[100] = {'\n'};
+	cin >> c;
+	cin >> d;//输入两个字符数组用于初始化两个LINT类对象
+	LINT aLint(c);
+	LINT bLint(d);
+	LINT e = aLint.ADD(bLint);//实现两个LINT类对象的相加
+	cout << e;//输出结果
+	//system("pause");
+    return 0;
+	
+}
+

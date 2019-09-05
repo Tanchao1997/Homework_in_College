@@ -1,0 +1,50 @@
+//#include "stdafx.h"
+#include<stdio.h>
+#include<stdlib.h>
+#define MAXLEN 100
+int main()
+{
+	int NUM[MAXLEN] = { 0 };
+	char a;
+	int topNUM = 0;
+	while (scanf("%c", &a) && a != '\n')
+	{
+		if (a >= '0'&&a <= '9') {
+			NUM[topNUM] = a - '0'; topNUM ++ ;
+		}
+		else if(a=='+'||a=='-'||a=='*'||a=='/')
+		{
+			if (topNUM>= 2)
+				switch (a)
+				{
+				case '+': {topNUM--; NUM[topNUM - 1] += NUM[topNUM]; NUM[topNUM] = 0; break; }
+				case '-': {topNUM--; NUM[topNUM - 1] -= NUM[topNUM]; NUM[topNUM] = 0; break; }
+				case '*': {topNUM--; NUM[topNUM - 1] *= NUM[topNUM]; NUM[topNUM] = 0; break; }
+					case '/': 
+					{
+						topNUM--;
+						if (NUM[topNUM] == 0)
+						{
+							printf("DIV0!\n");
+							exit(0);
+						}
+						NUM[topNUM - 1] /= NUM[topNUM]; NUM[topNUM] = 0; break;
+					}
+				}
+			else
+			{
+				printf("ERROR!\n");
+				exit(0);
+			}
+		}
+		else
+		{
+			printf("ERROR!\n");
+			exit(0);
+		}
+	}
+	if(topNUM==1)
+		printf("%d\n", NUM[0]);
+	else printf("ERROR!\n");
+	//system("pause");
+}

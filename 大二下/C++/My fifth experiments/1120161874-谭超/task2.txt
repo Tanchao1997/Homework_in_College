@@ -1,0 +1,69 @@
+//#include "stdafx.h"
+#include<iostream>
+#include<cstdio>
+#include<string>
+using namespace std;
+class Student
+{
+public:
+	string name;
+	int age;
+	Student(){};
+	Student(string name, int age)//Student类含参构造函数
+	{
+		this->name = name;
+		this->age = age;
+	}
+	friend bool operator==(Student, Student);//重载运算符==以便可以直接比较两个Student对象
+};
+bool operator==(Student a, Student b)
+{
+	if (a.age == b.age&&a.name == b.name) return true;
+	return false;
+}
+template <class T>//定义模板类
+class List
+{
+private:
+	T* store;
+	int size;//申请内存大小
+	int extendsSize;//每次扩大内存的大小
+	int num;//实际存储的对象个数
+public:
+	List()//在构造函数中初始化size,extendsSize和num
+	{
+		size = 50;
+		extendsSize = 20;
+		num = 0;
+		store = new T[size];
+	}
+	void Add(Student a)//向List对象中添加一个T对象
+	{
+		if (num >= size)
+		{
+			size += extendsSize;
+			T*tem = new T[size];
+			for (int i = 0; i < num; i++)
+				tem[i] = store[i];
+			delete store;
+			store = tem;
+		}
+		store[num++] = a;
+	}
+	T & operator[](unsigned i)//重载运算符[]
+	{
+		return store[i];
+	};
+};
+void main()
+{
+	Student s1("Joan", 22), s2("John", 19);
+	List<Student> listStudent;
+	listStudent.Add(s1);
+	listStudent.Add(s2);
+	if (listStudent[0] == listStudent[1])
+		cout << "Equal." << endl;
+	else
+		cout << "Not equal." << endl;
+	//system("pause");
+}

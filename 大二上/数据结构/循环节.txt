@@ -1,0 +1,111 @@
+// consoleApplication4.cpp: 定义控制台应用程序的入口点。
+//
+
+//#include "stdafx.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+//#define maxlen 1000
+typedef  struct  node
+{
+	int  data;
+	struct  node  *  next;
+}NODE;
+
+NODE  *  find(NODE  *, int  *);
+void  outputring(NODE  *);
+void  change(int, int, NODE  *);
+
+void  outputring(NODE  *  pring)
+{
+	NODE  *  p;
+	p = pring;
+	if (p == NULL)
+		printf("NULL");
+	else
+		do
+		{
+			printf("%d", p->data);
+			p = p->next;
+		} while (p != pring);
+		printf("\n");
+}
+
+int  main()
+{
+	int  n, m;
+	NODE  *  head, *pring;
+	scanf("%d%d", &n, &m);
+	head = (NODE *)malloc(sizeof(NODE));
+	head->next = NULL;
+	head->data = -1;
+	change(n, m, head);
+	pring = find(head, &n);
+	printf("ring=%d\n", n);
+	outputring(pring);
+	//printf("over\n");
+	NODE*Flag = head->next;
+	NODE*ans = head;
+	head = head->next;
+	free(ans);
+	if(head!=NULL)
+	do
+	{
+		ans = head;
+		head = head->next;
+		free(ans);
+	} while (head != Flag);
+	//printf("OVER\n");
+	//system("pause");
+	return  0;
+}
+
+void  change(int  n, int  m, NODE*head)
+{
+	NODE*loc = head;
+	n = n%m;
+	int a[1000][2] = { 0 };
+	int top = 0, flag = -1;
+	int i;
+	a[top][0] = n;
+	while (1)
+	{
+
+		a[top][1] = n * 10 / m;
+		a[top + 1][0] = n * 10 % m;
+		n = n * 10 % m;
+		if (n == 0) break;
+		for (i = 0; i <= top; i++)
+			if (n == a[i][0])
+			{
+				flag = i;
+				break;
+			}
+		if (flag >= 0) break;
+		top++;
+	}
+	if (flag >= 0)
+		for (i = flag; i <= top; i++)
+		{
+			loc->next = (NODE*)malloc(sizeof(NODE));
+			loc = loc->next;
+			loc->data = a[i][1];
+			loc->next = NULL;
+		}
+	loc->next = head->next;
+}
+
+NODE*  find(NODE* head, int  *  n)
+{
+	int count = 0;
+	*n = 0;
+	if (head->next == NULL)   return NULL;
+	NODE*loc = head->next;
+	do
+	{
+		count++;
+		loc = loc->next;
+	} while (loc != head->next);
+	*n = count;
+	return head->next;
+}

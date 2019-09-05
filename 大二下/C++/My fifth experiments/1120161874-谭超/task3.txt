@@ -1,0 +1,77 @@
+//#include "stdafx.h"
+#include<iostream>
+#include<cstdio>
+#include<string>
+using namespace std;
+class Shape
+{
+public:
+	virtual double Area() = 0;//面积接口
+	virtual double Volume() = 0;//体积接口
+};
+class Circle :public Shape
+{
+private:
+	double radius;
+	static const double PI;//定义常量PI
+public:
+	Circle() 
+	{
+		radius = 0;
+	};
+	Circle(double a)
+	{
+		radius = a;
+	}
+	double Area()//Circle实现Area函数
+	{
+		return PI*radius*radius;
+	}
+	double Volume()//Circle实现Volume函数
+	{
+		return 0;
+	}
+};
+const double Circle::PI = 3.1415926;//常量PI初始化
+class Triangle
+{
+private:
+	double length1;
+	double length2;
+	double length3;
+public:
+	Triangle()
+	{
+		length1 = 0;
+		length2 = 0;
+		length3 = 0;
+	}
+	Triangle(double a, double b,double c)
+	{
+		length1 = a;
+		length2 = b;
+		length3 = c;
+	}
+	double Area()//Triangle实现Area函数
+	{
+		double p = (length1 + length2 + length3) / 2;
+		return sqrt(p*(p - length1)*(p - length2)*(p - length3));
+	}
+	double Volume()//Triangle实现Volume函数
+	{
+		return 0;
+	}
+};
+class CAD
+{
+private:
+	Shape& shape;
+public:
+	CAD(Shape& s) : shape(s) {};
+	double Area() { return shape.Area(); }
+	double Volume() { return shape.Volume(); }
+};
+int main()
+{
+
+}

@@ -1,0 +1,103 @@
+//#include "stdafx.h"
+#include<iostream>
+#include<cstdio>
+#include<string>
+using namespace std;
+class Frame
+{
+public:
+	string ID;
+	int weight;
+	Frame()//无参构造函数，给ID和weight一个初始值
+	{
+		ID = "0000";
+		weight = 0;
+	}
+	Frame(string ID, int weight)//含参构造函数
+	{
+		this->ID = ID;
+		this->weight = weight;
+	}
+	friend istream& operator>> (istream&, Frame& a);//对>>运算符重载，达到cin>>Frame的目的
+};
+class Cardoor
+{
+public:
+	int num;
+	string color;
+	Cardoor()//无参构造函数，设置初始值
+	{
+		num = 0;
+		color = "blank";
+	}
+	Cardoor(int num, string color)//含参构造函数
+	{
+		this->num = num;
+		this->color = color;
+	}
+	friend istream& operator>> (istream&, Cardoor& a);//对>>运算符重载，达到cin>>Cardoor的目的
+};
+class Tyre
+{
+public:
+	int num;
+	Tyre()//无参构造函数，设置初始值
+	{
+		num = 0;
+	}
+	Tyre(int a)//含参构造函数
+	{
+		num = a;
+	}
+	friend istream& operator>> (istream&, Tyre& a);////对>>运算符重载，达到cin>>Tyre的目的
+};
+class Vehicle
+{
+private:
+	Frame frame;
+	Cardoor cardoor;
+	Tyre tyre;
+public:
+	Vehicle()//无参构造函数
+	{
+	};
+	Vehicle(Frame a,Cardoor b,Tyre c)//含参构造函数
+	{
+		frame = a;
+		cardoor = b;
+		tyre = c;
+	};
+	friend ostream& operator<<(ostream&out, Vehicle& a);//<<运算符重载,cout<<Vehicle
+};
+istream& operator >>(istream& in, Frame& a)
+{
+	in >> a.ID>>a.weight ;
+	return in;
+}
+istream& operator >>(istream& in, Cardoor&a)
+{
+	in >> a.num>> a.color;
+	return in;
+}
+istream& operator >>(istream& in, Tyre&a)
+{
+	in >> a.num;
+	return in;
+}
+ostream& operator<<(ostream&out, Vehicle& a)
+{
+	out << a.frame.ID << " " << a.cardoor.num << " " << a.tyre.num;
+	return out;
+}
+int main()
+{
+	Frame frame;
+	Cardoor cardoor;
+	Tyre tyre;//分别创建Frame、Cardoor、Tyre对象
+	cin >> frame;
+	cin >> cardoor;
+	cin >> tyre;
+	Vehicle vehicle(frame, cardoor, tyre);//创建Vehicle对象
+	cout << vehicle<<endl;
+	//system("pause");
+}
